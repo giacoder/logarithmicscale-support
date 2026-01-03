@@ -3,124 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logarithmic Scale Support</title>
+    <title>LogarithmicScale Support</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
             min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #e8d5b7, #c9a227);
+            border-radius: 24px;
+            margin: 0 auto 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            font-size: 48px;
         }
-
-        .container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 60px 40px;
-            max-width: 900px;
-            width: 100%;
-            text-align: center;
-        }
-
         h1 {
-            color: #333;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-            cursor: pointer;
+        .tagline {
+            color: #a0a0a0;
+            margin-bottom: 32px;
         }
-
-        .video-link {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        a.email {
+            display: inline-block;
+            color: #4da6ff;
             text-decoration: none;
+            font-weight: 500;
+            padding: 12px 24px;
+            border: 1px solid #4da6ff;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
-
-        .video-thumbnail {
+        a.email:hover {
+            background: #4da6ff;
+            color: #1a1a2e;
+        }
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .video-link {
+            position: relative;
+            display: block;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 9/16;
+            background: #000;
+        }
+        .video-link img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.2s ease;
         }
-
-        .play-button {
+        .video-link:hover img {
+            transform: scale(1.05);
+        }
+        .play-btn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 0, 0, 0.9);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s, background 0.2s;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            font-size: 24px;
+            color: #fff;
+            transition: background 0.2s ease;
         }
-
-        .play-button:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: rgba(255, 0, 0, 1);
+        .video-link:hover .play-btn {
+            background: rgba(255, 0, 0, 0.9);
         }
-
-        .play-button::after {
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 28px solid white;
-            border-top: 18px solid transparent;
-            border-bottom: 18px solid transparent;
-            margin-left: 6px;
-        }
-
-        p {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-top: 20px;
+        footer {
+            margin-top: 32px;
+            color: #606060;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Logarithmic Scale Support</h1>
-        <div class="video-container">
-            <a href="https://youtu.be/fVcRN4HQBDY" target="_blank" class="video-link">
-                <img src="https://img.youtube.com/vi/fVcRN4HQBDY/maxresdefault.jpg" alt="Video thumbnail" class="video-thumbnail" onerror="this.src='https://img.youtube.com/vi/fVcRN4HQBDY/hqdefault.jpg'">
-                <div class="play-button"></div>
-            </a>
+        <div class="app-icon">📐</div>
+        <h1>LogarithmicScale</h1>
+        <p class="tagline">Circular Slide Rule</p>
+        
+        <div class="card">
+            <h2>📹 How to Use</h2>
+            <p>Watch these short tutorials to learn how to use LogarithmicScale.</p>
+            <div class="videos-grid">
+                <a href="https://youtube.com/shorts/b3fTpogbv6s" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/b3fTpogbv6s/0.jpg" alt="Tutorial 1">
+                    <div class="play-btn">▶</div>
+                </a>
+                <a href="https://youtube.com/shorts/ajwz-n0A2sM" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/ajwz-n0A2sM/0.jpg" alt="Tutorial 2">
+                    <div class="play-btn">▶</div>
+                </a>
+                <a href="https://youtube.com/shorts/P02aiYJI1_k" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/P02aiYJI1_k/0.jpg" alt="Tutorial 3">
+                    <div class="play-btn">▶</div>
+                </a>
+                <a href="https://youtube.com/shorts/hWOQQ8faw3A" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/hWOQQ8faw3A/0.jpg" alt="Tutorial 4">
+                    <div class="play-btn">▶</div>
+                </a>
+                <a href="https://youtube.com/shorts/ww11tc36Wn8" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/ww11tc36Wn8/0.jpg" alt="Tutorial 5">
+                    <div class="play-btn">▶</div>
+                </a>
+                <a href="https://youtube.com/shorts/1L4RTzovKkg" target="_blank" class="video-link">
+                    <img src="https://img.youtube.com/vi/1L4RTzovKkg/0.jpg" alt="Tutorial 6">
+                    <div class="play-btn">▶</div>
+                </a>
+            </div>
         </div>
-        <p>This page demonstrates support for logarithmic scale functionality.</p>
-        <p style="margin-top: 20px;">
-            <a href="https://youtu.be/fVcRN4HQBDY" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">
-                Watch on YouTube ↗
-            </a>
-        </p>
+
+        <div class="card">
+            <h2>Need Help?</h2>
+            <p>If you have questions, feedback, or need assistance with the app, feel free to reach out.</p>
+            <a class="email" href="mailto:giababu2000@yahoo.com">giababu2000@yahoo.com</a>
+        </div>
+        
+        <footer>© 2025 LogarithmicScale</footer>
     </div>
 </body>
 </html>
-
